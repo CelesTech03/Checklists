@@ -1,4 +1,4 @@
-# Bull's Eye App
+# Checklists App
 App 2 of the [UIKit Apprentice](https://www.raywenderlich.com/books/uikit-apprentice) book by Fahim Farook & Matthijs Hollemans.
 Material used for iOS Development course.
 
@@ -6,7 +6,7 @@ Material used for iOS Development course.
 
 The following functionality is completed:
 
-- [ ] Put a table view on the app's screen
+- [x] Put a table view on the app's screen
 - [ ] Put data into that table view
 - [ ] Allow the user to tap a row in the table to toggle a checkmark on and off
 
