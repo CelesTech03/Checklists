@@ -12,7 +12,7 @@ The following functionality is completed:
 - [x] Allow the user to tap a row in the table to toggle a checkmark on and off
 - [ ] Allow the user to store to-do information (add new rows to table view)
 - [x] Add navigation bar with add button that opens a new screen
-- [ ] Implement Add item screen
+- [x] Implement Add item screen
 
 ## Video Walkthrough
 Here's a walkthrough of implemented user stories:
