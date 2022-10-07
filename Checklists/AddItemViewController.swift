@@ -7,11 +7,20 @@
 
 import UIKit
 
-class AddItemViewController: UITableViewController {
+class AddItemViewController: UITableViewController, UITextFieldDelegate {
 
+    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var doneBarButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+    }
+    
+    // Keyboard automatically shows up on the screen when Add Item controller is opened
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        textField.becomeFirstResponder()
     }
     
     // MARK: - Actions
@@ -21,6 +30,7 @@ class AddItemViewController: UITableViewController {
     }
     
     @IBAction func done(_ sender: Any) {
+        print("Contents of the text field: \(textField.text!)")
         navigationController?.popViewController(animated: true)
     }
     
@@ -29,6 +39,28 @@ class AddItemViewController: UITableViewController {
         _ tableView: UITableView,
         willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return nil
+    }
+    
+    // MARK: - Text Field Delegates
+    // Disallows empty keyboard input
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let oldText = textField.text!
+        let stringRange = Range(range, in: oldText)!
+        let newText = oldText.replacingCharacters(
+            in: stringRange,
+            with: string)
+        
+        // If the text is not empty, enable the button. Else don't enable it
+        doneBarButton.isEnabled = !newText.isEmpty
+        
+        return true
+    }
+    
+    // Gives users a quick and easy way to clear text
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        doneBarButton.isEnabled = false
+        return true
     }
     
 }
