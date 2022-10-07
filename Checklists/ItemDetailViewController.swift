@@ -7,26 +7,38 @@
 
 import UIKit
 
-// Delegate protocol (contact between addItemViewController and ChecklistViewController)
-protocol AddItemViewControllerDelegate: AnyObject {
-    func addItemViewControllerDidCancel(
-        _ controller: AddItemViewController)
-    func addItemViewController(
-        _ controller: AddItemViewController,
+// Delegate protocol (contact between ItemDetailViewController and ChecklistViewController)
+protocol ItemDetailViewControllerDelegate: AnyObject {
+    func ItemDetailViewControllerDidCancel(
+        _ controller: ItemDetailViewController)
+    func ItemDetailViewController(
+        _ controller: ItemDetailViewController,
         didFinishAdding item: ChecklistItem)
+    func ItemDetailViewController(
+        _ controller: ItemDetailViewController,
+        didFinishEditing item: ChecklistItem)
 }
 
-class AddItemViewController: UITableViewController, UITextFieldDelegate {
+class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     
     // var to refer back to ChecklistViewController
-    weak var delegate: AddItemViewControllerDelegate?
+    weak var delegate: ItemDetailViewControllerDelegate?
 
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
     
+    // new property for a ChecklistItem object
+    var itemToEdit: ChecklistItem?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Changes view controller title to Edit Item if user is editing
+        if let item = itemToEdit {
+            title = "Edit Item"
+            textField.text = item.text
+            doneBarButton.isEnabled = true
+        }
     }
     
     // Keyboard automatically shows up on the screen when Add Item controller is opened
@@ -38,15 +50,25 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
     // MARK: - Actions
     // Tells navigation controller to close the Add Item screen
     @IBAction func cancel(_ sender: Any) {
-        delegate?.addItemViewControllerDidCancel(self)
+        delegate?.ItemDetailViewControllerDidCancel(self)
     }
     
     // Sends text field input to ChecklistViewController
     @IBAction func done(_ sender: Any) {
-        let item = ChecklistItem()
-        item.text = textField.text!
         
-        delegate?.addItemViewController(self, didFinishAdding: item)
+        // Checks wether the itemToEdit property contains an object
+        if let item = itemToEdit {
+            item.text = textField.text!
+            delegate?.ItemDetailViewController(
+                self,
+                didFinishEditing: item)
+        } else { // else add new item
+            let item = ChecklistItem()
+            item.text = textField.text!
+            delegate?.ItemDetailViewController(
+                self,
+                didFinishAdding: item)
+        }
     }
     
     // MARK: - Table View Delegates

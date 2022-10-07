@@ -8,7 +8,7 @@
 import Foundation
 
 // Combines the text and checked vars into one object
-class ChecklistItem {
+class ChecklistItem: NSObject {
     var text = ""
     var checked = false
 }

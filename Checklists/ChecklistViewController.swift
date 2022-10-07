@@ -7,17 +7,17 @@
 
 import UIKit
 
-class ChecklistViewController: UITableViewController, AddItemViewControllerDelegate {
+class ChecklistViewController: UITableViewController, ItemDetailViewControllerDelegate {
     // MARK: - Add ItemViewController Delegates
-    func addItemViewControllerDidCancel(
-        _ controller: AddItemViewController) {
+    func ItemDetailViewControllerDidCancel(
+        _ controller: ItemDetailViewController) {
             navigationController?.popViewController(animated: true)
     }
     
     /* Insert new object into the items array. Tell the ChecklistItem
        table view you have new row for it and then close the Add Items screen */
-    func addItemViewController(
-        _ controller: AddItemViewController,
+    func ItemDetailViewController(
+        _ controller: ItemDetailViewController,
         didFinishAdding item: ChecklistItem) {
             
             let newRowIndex = items.count
@@ -26,6 +26,20 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
             let indexPath = IndexPath(row: newRowIndex, section: 0)
             let indexPaths = [indexPath]
             tableView.insertRows(at: indexPaths, with: .automatic)
+            navigationController?.popViewController(animated: true)
+    }
+    
+    
+    // Updates the label for table view cell (edits it)
+    func ItemDetailViewController(
+        _ controller: ItemDetailViewController,
+        didFinishEditing item: ChecklistItem) {
+            if let index = items.firstIndex(of: item) {
+                let indexPath = IndexPath(row: index, section: 0)
+                if let cell = tableView.cellForRow(at: indexPath) {
+                    configureText(for: cell, with: item)
+                }
+            }
             navigationController?.popViewController(animated: true)
     }
     
@@ -79,10 +93,12 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
         for cell: UITableViewCell,
         with item: ChecklistItem) { // Directly passes ChecklistItem object (parameter)
             
+            let label = cell.viewWithTag(1001) as! UILabel
+            
             if item.checked {
-                cell.accessoryType = .checkmark
+                label.text = "√"
             } else {
-                cell.accessoryType = .none
+                label.text = ""
             }
         }
     
@@ -102,9 +118,19 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
             // Checking for correct segue by using the identifier
             if segue.identifier == "AddItem" {
                 // cast destination to AddItemViewController to get a ref. to an object with the right type
-                let controller = segue.destination as! AddItemViewController
+                let controller = segue.destination as! ItemDetailViewController
                 // Set delegate property to self so the connection is complete
                 controller.delegate = self
+            } else if segue.identifier == "EditItem" {
+                // If user taps on edit button
+                let controller = segue.destination as! ItemDetailViewController
+                controller.delegate = self
+                
+                // Required for table view cell whose disclosure button was tapped
+                if let indexPath = tableView.indexPath(
+                    for: sender as! UITableViewCell) {
+                    controller.itemToEdit = items[indexPath.row]
+                }
             }
         }
     
