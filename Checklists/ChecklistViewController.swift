@@ -7,7 +7,28 @@
 
 import UIKit
 
-class ChecklistViewController: UITableViewController {
+class ChecklistViewController: UITableViewController, AddItemViewControllerDelegate {
+    // MARK: - Add ItemViewController Delegates
+    func addItemViewControllerDidCancel(
+        _ controller: AddItemViewController) {
+            navigationController?.popViewController(animated: true)
+    }
+    
+    /* Insert new object into the items array. Tell the ChecklistItem
+       table view you have new row for it and then close the Add Items screen */
+    func addItemViewController(
+        _ controller: AddItemViewController,
+        didFinishAdding item: ChecklistItem) {
+            
+            let newRowIndex = items.count
+            items.append(item)
+            
+            let indexPath = IndexPath(row: newRowIndex, section: 0)
+            let indexPaths = [indexPath]
+            tableView.insertRows(at: indexPaths, with: .automatic)
+            navigationController?.popViewController(animated: true)
+    }
+    
     var items = [ChecklistItem]() // var for array of items
     
     override func viewDidLoad() {
@@ -74,22 +95,18 @@ class ChecklistViewController: UITableViewController {
             label.text = item.text
         }
     
-    // MARK: - Actions
-    // Creates a new ChecklistItem object and adds it to the items array
-    @IBAction func addItem(_ sender: Any) {
-        let newRowIndex = items.count // Gets index of the new row
-        
-        // Creates a new ChecklistItem object (row im table view) and adds it to the end of the array
-        let item = ChecklistItem()
-        item.text = "I am a new row"
-        items.append(item)
-        
-        // Tells the table view about this new row so it can add a new cell for that row
-        let indexPath = IndexPath(row: newRowIndex, section: 0)
-        let indexPaths = [indexPath] // Creates single index-path array
-        tableView.insertRows(at: indexPaths, with: .automatic)
-    }
-    
+    // MARK: - Navigation
+    override func prepare(
+        for segue: UIStoryboardSegue,
+        sender: Any?) {
+            // Checking for correct segue by using the identifier
+            if segue.identifier == "AddItem" {
+                // cast destination to AddItemViewController to get a ref. to an object with the right type
+                let controller = segue.destination as! AddItemViewController
+                // Set delegate property to self so the connection is complete
+                controller.delegate = self
+            }
+        }
     
     // MARK: - Table View Data Source
     // Data source protocol for table view
