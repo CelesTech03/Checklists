@@ -48,12 +48,12 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     }
     
     // MARK: - Actions
-    // Tells navigation controller to close the Add Item screen
+    // Tells navigation controller to close the Add/Edit Item screen
     @IBAction func cancel(_ sender: Any) {
         delegate?.ItemDetailViewControllerDidCancel(self)
     }
     
-    // Sends text field input to ChecklistViewController
+    // Method to finish adding or editing an item
     @IBAction func done(_ sender: Any) {
         
         // Checks wether the itemToEdit property contains an object
@@ -80,7 +80,10 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     
     // MARK: - Text Field Delegates
     // Disallows empty keyboard input
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String) -> Bool {
         
         let oldText = textField.text!
         let stringRange = Range(range, in: oldText)!
@@ -95,7 +98,8 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     }
     
     // Gives users a quick and easy way to clear text
-    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+    func textFieldShouldClear(
+        _ textField: UITextField) -> Bool {
         doneBarButton.isEnabled = false
         return true
     }

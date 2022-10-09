@@ -10,14 +10,15 @@ import UIKit
 class ChecklistViewController: UITableViewController, ItemDetailViewControllerDelegate {
     
     var items = [ChecklistItem]() // var for array of items
+    var checklist: Checklist! // Checklist object
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        // Makes navigation bar title large
-        navigationController?.navigationBar.prefersLargeTitles = true
         // Load items from Checklists.plist
         loadChecklistItems()
+        // Changes the title of the screen to the name of the Checklist object
+        title = checklist.name
     }
     
     // Makes checkmark visible or invisible according to current state
@@ -174,6 +175,20 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
             return cell
         }
     
+    // Method for swipe-to-delete row/checklist
+    override func tableView(
+        _ tableView: UITableView,
+        commit editingStyle: UITableViewCell.EditingStyle,
+        forRowAt indexPath: IndexPath) {
+            // remove the item from the data model
+            items.remove(at: indexPath.row)
+            
+            // Delete the corresponding row from the table view
+            let indexPaths = [indexPath]
+            tableView.deleteRows(at: indexPaths, with: .automatic)
+            saveChecklistItems()
+        }
+    
     // MARK: - Table View Delegate
     // Method for to toggle checkmark
     override func tableView(
@@ -191,17 +206,4 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
             saveChecklistItems()
         }
     
-    // Method for swipe-to-delete row/checklist
-    override func tableView(
-        _ tableView: UITableView,
-        commit editingStyle: UITableViewCell.EditingStyle,
-        forRowAt indexPath: IndexPath) {
-            // remove the item from the data model
-            items.remove(at: indexPath.row)
-            
-            // Delete the corresponding row from the table view
-            let indexPaths = [indexPath]
-            tableView.deleteRows(at: indexPaths, with: .automatic)
-            saveChecklistItems()
-        }
 }
