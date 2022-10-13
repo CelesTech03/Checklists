@@ -18,25 +18,8 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         navigationController?.navigationBar.prefersLargeTitles = true
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
-        
-        // Placeholder data
-        var list = Checklist(name: "Birthdays")
-        lists.append(list)
-        
-        list = Checklist(name: "Groceries")
-        lists.append(list)
-        
-        list = Checklist(name: "Cool Apps")
-        lists.append(list)
-        
-        list = Checklist(name: "To Do")
-        lists.append(list)
-    }
-    
-    // MARK: - Lsit Detail View Controller Delegates
-    func listDetailViewControllerDidCancel(
-        _ controller: ListDetailViewController) {
-            navigationController?.popViewController(animated: true)
+        // Load data
+        loadChecklists()
     }
     
     /* Insert new object into the items array. Tell the All List
@@ -53,6 +36,56 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
             navigationController?.popViewController(animated: true)
     }
     
+    // MARK: - Data Saving
+    // Method to return full path to the Documents folder (for data persistence)
+        func documentsDirectory() -> URL {
+            let paths = FileManager.default.urls(
+                for: .documentDirectory,
+                in: .userDomainMask)
+            return paths[0]
+            
+        }
+        
+        // Uses documentsDirectory() to construct the full path to the file that will store the checklist
+        func dataFilePath() -> URL {
+            return documentsDirectory().appendingPathComponent("Checklists.plist")
+        }
+        
+        /* Takes contents of the checklist and converts it to a block
+           of binary data and then writes this data to a file */
+        func saveChecklists() {
+            // Create instance of PropertyListEncoder
+            let encoder = PropertyListEncoder()
+            // Sets up a block of code to catch Swift errors
+            do {
+                let data = try encoder.encode(lists)
+                
+                try data.write(
+                    to: dataFilePath(),
+                    options: Data.WritingOptions.atomic)
+            } catch {
+                print("Error encoding item arra: \(error.localizedDescription)")
+            }
+        }
+
+        // Loads contents saved to Checklists.plist (by saveChecklists)
+        func loadChecklists() {
+            // Puts results of dataFilePath in a temp var
+            let path = dataFilePath()
+            // Try to load the contents of Checklists.plist
+            if let data = try? Data(contentsOf: path) {
+                let decoder = PropertyListDecoder()
+                do {
+                    // Load the saved data back into items
+                    lists = try decoder.decode(
+                        [Checklist].self,
+                        from: data)
+                } catch {
+                    print("Error decoding list array: \(error.localizedDescription)")
+                }
+            }
+        }
+    
     // Updates the label for table view cell (edits it)
     func listDetailViewController(
         _ controller: ListDetailViewController,
@@ -63,6 +96,12 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
                     cell.textLabel!.text = checklist.name
                 }
             }
+            navigationController?.popViewController(animated: true)
+    }
+    
+    // MARK: - List Detail View Controller Delegates
+    func listDetailViewControllerDidCancel(
+        _ controller: ListDetailViewController) {
             navigationController?.popViewController(animated: true)
     }
     

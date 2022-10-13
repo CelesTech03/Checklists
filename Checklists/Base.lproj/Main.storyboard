@@ -139,7 +139,7 @@
                             <outlet property="delegate" destination="tlQ-P5-eeh" id="IQ6-d3-xjM"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Checklists" id="zbu-ZV-9eT" customClass="Checklists">
+                    <navigationItem key="navigationItem" title="Checklists" id="zbu-ZV-9eT">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="vov-ZB-pw0">
                             <connections>
                                 <segue destination="EBh-I0-E5u" kind="show" identifier="AddChecklist" id="mkv-pv-bJ1"/>
@@ -240,7 +240,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="wca-ur-MIE"/>
+        <segue reference="E1e-FH-ZJm"/>
         <segue reference="mkv-pv-bJ1"/>
     </inferredMetricsTieBreakers>
     <resources>
