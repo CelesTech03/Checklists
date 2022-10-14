@@ -49,6 +49,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA53356828F9F48F006A2E0E /* Data Models */ = {
+			isa = PBXGroup;
+			children = (
+				AA59B46D28F23F6E0095804C /* Checklist.swift */,
+				AA1A5A5C28EF69EB00860B76 /* ChecklistItem.swift */,
+				AA53356628F9D406006A2E0E /* DataModel.swift */,
+			);
+			path = "Data Models";
+			sourceTree = "<group>";
+		};
+		AA53356928F9F4A9006A2E0E /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AA59B46B28F236720095804C /* AllListsViewController.swift */,
+				AAFB5E0128EDD18700252DE9 /* ChecklistViewController.swift */,
+				AA2228AD28EF95060067033C /* ItemDetailViewController.swift */,
+				AA59B47128F24A1E0095804C /* ListDetailViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		AA53356A28F9F4B3006A2E0E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AAFB5E0628EDD18800252DE9 /* Assets.xcassets */,
+				AAFB5E0828EDD18800252DE9 /* LaunchScreen.storyboard */,
+				AAFB5E0328EDD18700252DE9 /* Main.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		AAFB5DF128EDD18700252DE9 = {
 			isa = PBXGroup;
 			children = (
@@ -69,18 +100,11 @@
 			isa = PBXGroup;
 			children = (
 				AAFB5DFD28EDD18700252DE9 /* AppDelegate.swift */,
-				AAFB5DFF28EDD18700252DE9 /* SceneDelegate.swift */,
-				AA1A5A5C28EF69EB00860B76 /* ChecklistItem.swift */,
-				AAFB5E0128EDD18700252DE9 /* ChecklistViewController.swift */,
-				AA2228AD28EF95060067033C /* ItemDetailViewController.swift */,
-				AA59B46D28F23F6E0095804C /* Checklist.swift */,
-				AA59B46B28F236720095804C /* AllListsViewController.swift */,
-				AA59B47128F24A1E0095804C /* ListDetailViewController.swift */,
-				AAFB5E0328EDD18700252DE9 /* Main.storyboard */,
-				AAFB5E0628EDD18800252DE9 /* Assets.xcassets */,
-				AAFB5E0828EDD18800252DE9 /* LaunchScreen.storyboard */,
 				AAFB5E0B28EDD18800252DE9 /* Info.plist */,
-				AA53356628F9D406006A2E0E /* DataModel.swift */,
+				AAFB5DFF28EDD18700252DE9 /* SceneDelegate.swift */,
+				AA53356828F9F48F006A2E0E /* Data Models */,
+				AA53356928F9F4A9006A2E0E /* View Controllers */,
+				AA53356A28F9F4B3006A2E0E /* Resources */,
 			);
 			path = Checklists;
 			sourceTree = "<group>";
