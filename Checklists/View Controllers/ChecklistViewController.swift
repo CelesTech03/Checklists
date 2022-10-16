@@ -14,7 +14,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-
+        
         // Changes the title of the screen to the name of the Checklist object
         title = checklist.name
     }
@@ -46,10 +46,10 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
     func ItemDetailViewControllerDidCancel(
         _ controller: ItemDetailViewController) {
             navigationController?.popViewController(animated: true)
-    }
+        }
     
     /* Insert new object into the items array. Tell the ChecklistItem
-       table view you have new row for it and then close the Add Items screen */
+     table view you have new row for it and then close the Add Items screen */
     func ItemDetailViewController(
         _ controller: ItemDetailViewController,
         didFinishAdding item: ChecklistItem) {
@@ -60,7 +60,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
             let indexPaths = [indexPath]
             tableView.insertRows(at: indexPaths, with: .automatic)
             navigationController?.popViewController(animated: true)
-    }
+        }
     
     // Updates the label for table view cell (edits it)
     func ItemDetailViewController(
@@ -73,7 +73,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
                 }
             }
             navigationController?.popViewController(animated: true)
-    }
+        }
     
     // MARK: - Navigation
     override func prepare(
@@ -115,7 +115,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
                 for: indexPath) // indexPath is an object that points to a specific row in the table
             
             /* Asks the array global var for the ChecklistItem
-            object at the index that corresponds to the row number */
+             object at the index that corresponds to the row number */
             let item = checklist.items[indexPath.row]
             
             configureText(for: cell, with: item)

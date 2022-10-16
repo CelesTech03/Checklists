@@ -33,7 +33,7 @@ class DataModel {
     }
     
     /* Takes contents of the checklist and converts it to a block
-       of binary data and then writes this data to a file */
+     of binary data and then writes this data to a file */
     func saveChecklists() {
         // Create instance of PropertyListEncoder
         let encoder = PropertyListEncoder()
@@ -48,7 +48,7 @@ class DataModel {
             print("Error encoding item arra: \(error.localizedDescription)")
         }
     }
-
+    
     // Loads contents saved to Checklists.plist (by saveChecklists)
     func loadChecklists() {
         // Puts results of dataFilePath in a temp var
@@ -61,46 +61,54 @@ class DataModel {
                 lists = try decoder.decode(
                     [Checklist].self,
                     from: data)
+                sortChecklists()
             } catch {
                 print("Error decoding list array: \(error.localizedDescription)")
             }
         }
     }
     
+    // Sorts the Checklists array
+    func sortChecklists() {
+        lists.sort { list1, list2 in
+            return list1.name.localizedStandardCompare(list2.name) == .orderedAscending
+        }
+    }
+    
     // Creates a new Dictionary instance and adds the value -1 for the key "ChecklistIndex"
     func registerDefaults() {
-      let dictionary = [
-        "ChecklistIndex": -1,
-        // Checks wether this is the first time the user runs the app
-        "FirstTime": true] as [String: Any]
-      UserDefaults.standard.register(defaults: dictionary)
+        let dictionary = [
+            "ChecklistIndex": -1,
+            // Checks wether this is the first time the user runs the app
+            "FirstTime": true] as [String: Any]
+        UserDefaults.standard.register(defaults: dictionary)
     }
     
     // Automatically updates UserDefaults
     var indexOfSelectedChecklist: Int {
-      get {
-        return UserDefaults.standard.integer(
-          forKey: "ChecklistIndex")
-      }
-      set {
-        UserDefaults.standard.set(
-          newValue,
-          forKey: "ChecklistIndex")
-      }
+        get {
+            return UserDefaults.standard.integer(
+                forKey: "ChecklistIndex")
+        }
+        set {
+            UserDefaults.standard.set(
+                newValue,
+                forKey: "ChecklistIndex")
+        }
     }
     
     // Creates a new checklist object and adds it to the array if it's the first time the app is being run
     func handleFirstTime() {
-      let userDefaults = UserDefaults.standard
-      let firstTime = userDefaults.bool(forKey: "FirstTime")
-
-      if firstTime {
-        let checklist = Checklist(name: "List")
-        lists.append(checklist)
-
-        indexOfSelectedChecklist = 0
-        userDefaults.set(false, forKey: "FirstTime")
-      }
+        let userDefaults = UserDefaults.standard
+        let firstTime = userDefaults.bool(forKey: "FirstTime")
+        
+        if firstTime {
+            let checklist = Checklist(name: "List")
+            lists.append(checklist)
+            
+            indexOfSelectedChecklist = 0
+            userDefaults.set(false, forKey: "FirstTime")
+        }
     }
     
 }

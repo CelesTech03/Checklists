@@ -23,7 +23,7 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     
     // var to refer back to ChecklistViewController
     weak var delegate: ItemDetailViewControllerDelegate?
-
+    
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
     
@@ -75,8 +75,8 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     override func tableView(
         _ tableView: UITableView,
         willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        return nil
-    }
+            return nil
+        }
     
     // MARK: - Text Field Delegates
     // Disallows empty keyboard input
@@ -84,24 +84,24 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
         _ textField: UITextField,
         shouldChangeCharactersIn range: NSRange,
         replacementString string: String) -> Bool {
-        
-        let oldText = textField.text!
-        let stringRange = Range(range, in: oldText)!
-        let newText = oldText.replacingCharacters(
-            in: stringRange,
-            with: string)
-        
-        // If the text is not empty, enable the button. Else don't enable it
-        doneBarButton.isEnabled = !newText.isEmpty
-        
-        return true
-    }
+            
+            let oldText = textField.text!
+            let stringRange = Range(range, in: oldText)!
+            let newText = oldText.replacingCharacters(
+                in: stringRange,
+                with: string)
+            
+            // If the text is not empty, enable the button. Else don't enable it
+            doneBarButton.isEnabled = !newText.isEmpty
+            
+            return true
+        }
     
     // Gives users a quick and easy way to clear text
     func textFieldShouldClear(
         _ textField: UITextField) -> Bool {
-        doneBarButton.isEnabled = false
-        return true
-    }
+            doneBarButton.isEnabled = false
+            return true
+        }
     
 }
