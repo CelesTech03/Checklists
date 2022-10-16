@@ -7,12 +7,14 @@ Material used for iOS Development course.
 
 The following functionality is completed:
 
-- [x] Put a table view on the app's screen
-- [x] Put data into that table view
-- [x] Allow the user to tap a row in the table to toggle a checkmark on and off
-- [ ] Allow the user to store to-do information (add new rows to table view)
-- [x] Add navigation bar with add button that opens a new screen
-- [x] Implement Add item screen
+- [x] User can add/edit a checklist
+- [x] User can add/edit an item in the checklist
+- [x] User can tap an item in the table to toggle a checkmark on and off
+- [x] User can see remaining items in each checklist
+- [x] User can choose an icon for the checklist
+- [x] User can set a reminder for items due date
+- [x] User can receive local notifications from app
 
 ## Video Walkthrough
 Here's a walkthrough of implemented user stories:
+### iPhone 14 Pro
