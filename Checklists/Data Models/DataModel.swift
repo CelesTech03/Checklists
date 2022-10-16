@@ -45,7 +45,7 @@ class DataModel {
                 to: dataFilePath(),
                 options: Data.WritingOptions.atomic)
         } catch {
-            print("Error encoding item arra: \(error.localizedDescription)")
+            print("Error encoding item array: \(error.localizedDescription)")
         }
     }
     
@@ -111,4 +111,11 @@ class DataModel {
         }
     }
     
+    // Generates a unique item ID for notifications
+    class func nextChecklistItemID() -> Int {
+        let userDefaults = UserDefaults.standard
+        let itemID = userDefaults.integer(forKey: "ChecklistItemID")
+        userDefaults.set(itemID + 1, forKey: "ChecklistItemID")
+        return itemID
+    }
 }

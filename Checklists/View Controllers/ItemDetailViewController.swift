@@ -27,7 +27,11 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
     
-    // new property for a ChecklistItem object
+    // Notification outlets
+    @IBOutlet weak var shouldRemindSwitch: UISwitch!
+    @IBOutlet weak var datePicker: UIDatePicker!
+    
+    // New property for a ChecklistItem object
     var itemToEdit: ChecklistItem?
     
     override func viewDidLoad() {
@@ -38,6 +42,9 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
             title = "Edit Item"
             textField.text = item.text
             doneBarButton.isEnabled = true
+            // Notifications
+            shouldRemindSwitch.isOn = item.shouldRemind
+            datePicker.date = item.dueDate
         }
     }
     
@@ -59,15 +66,36 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
         // Checks wether the itemToEdit property contains an object
         if let item = itemToEdit {
             item.text = textField.text!
+            // Notifications
+            item.shouldRemind = shouldRemindSwitch.isOn
+            item.dueDate = datePicker.date
+            item.scheduleNotification()
+            
             delegate?.ItemDetailViewController(
                 self,
                 didFinishEditing: item)
         } else { // else add new item
             let item = ChecklistItem()
             item.text = textField.text!
+            item.checked = false
+            
+            item.shouldRemind = shouldRemindSwitch.isOn
+            item.dueDate = datePicker.date
+            item.scheduleNotification()
             delegate?.ItemDetailViewController(
                 self,
                 didFinishAdding: item)
+        }
+    }
+    
+    @IBAction func shouldRemindToggled(_ switchControl: UISwitch) {
+        textField.resignFirstResponder()
+        
+        if switchControl.isOn {
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options: [.alert, .sound]) {_, _ in
+                // do nothing
+            }
         }
     }
     

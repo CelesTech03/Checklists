@@ -123,7 +123,6 @@ class ListDetailViewController: UITableViewController, UITextFieldDelegate, Icon
             
             // If the text is not empty, enable the button. Else don't enable it
             doneBarButton.isEnabled = !newText.isEmpty
-            
             return true
         }
     
